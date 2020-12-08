@@ -8,9 +8,9 @@ import BlockRGB from "./components/BlockRGB.js";
 function HomeScreen() {
   return (
     <View style={styles.container}>
-      <BlockRGB red={255} green={0} blue={0} />
-      <BlockRGB red={0} green={255} blue={0} />
-      <BlockRGB red={0} green={0} blue={255} />
+      <BlockRGB red={255} green={155} blue={155} />
+      <BlockRGB red={155} green={255} blue={155} />
+      <BlockRGB red={155} green={155} blue={255} />
     </View>
   );
 }
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
    flex: 1,
    backgroundColor: "#fff",
    alignItems: "center",
-   justifyContent: "center",
+   justifyContent: "flex-start",
+   margin: 10,
  },
 });
 
