@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Button, useWindowDimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import BlockRGB from "./components/BlockRGB.js";
@@ -12,15 +12,30 @@ import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 //   { red: 128, green: 0, blue: 255, id: "2" },
 // ];
 
+const NUM_COLUMNS = 10;
+
 function HomeScreen({navigation}) {
   const [colorArray, setColorArray] = useState([]);
+  const BLOCK_SIZE = useWindowDimensions().width / NUM_COLUMNS
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <Button onPress={addColor} title="Add Color" />,
+      headerLeft: () => <Button onPress={resetColor} title="Reset" />,
+    });
+  });
 
   function renderItem({ item }) {
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate("DetailsScreen", { ...item })}
       >
-        <BlockRGB red={item.red} green={item.green} blue={item.blue} />
+        <BlockRGB
+          style={{ height: BLOCK_SIZE, width: BLOCK_SIZE }}
+          red={item.red}
+          green={item.green}
+          blue={item.blue}
+        />
       </TouchableOpacity>
     );
   }
@@ -44,18 +59,19 @@ function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={{height: 40, justifyContent:"center"}}
+      {/* <TouchableOpacity style={{height: 40, justifyContent:"center"}}
         onPress={addColor}>
           <Text style={{color:"blue"}}>Add colour</Text>
       </TouchableOpacity>
       <TouchableOpacity style={{height: 40, justifyContent:"center"}}
         onPress={resetColor}>
           <Text style={{color:"red"}}>Reset</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <FlatList
         style={{ width: "100%" }}
         data={colorArray}
         renderItem={renderItem}
+        numColumns={NUM_COLUMNS}
       />
     </View>
   );
@@ -64,7 +80,7 @@ function HomeScreen({navigation}) {
 function DetailsScreen({ route }) {
   // Destructure this object so we don't have to type route.params.red etc
   const { red, green, blue } = route.params;
- 
+  
   return (
     <View
       style={[
@@ -72,6 +88,7 @@ function DetailsScreen({ route }) {
         { backgroundColor: `rgb(${red}, ${green}, ${blue})` },
       ]}
     >
+
       <View style={{ padding: 30 }}>
         <Text style={styles.detailText}>Red: {red}</Text>
         <Text style={styles.detailText}>Green: {green}</Text>
@@ -102,13 +119,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  list: {
-    width: "100%",
-  },
+  // list: {
+  //   width: "100%",
+  // },
   detailText: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 36,
+    marginBottom: 12,
   },
+
  });
  
 
