@@ -80,20 +80,54 @@ function HomeScreen({navigation}) {
 function DetailsScreen({ route }) {
   // Destructure this object so we don't have to type route.params.red etc
   const { red, green, blue } = route.params;
+
+  // define contrasting colors for Text
+
+  const textRed = red > 125 ? 255 - red - 20 : 255 + red + 20;
+  const textGreen = green > 125 ? 255 - green - 20 : 255 + green + 20;
+  const textBlue = blue > 125 ? 255 - blue - 20 : 255 + blue + 20;
   
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: `rgb(${red}, ${green}, ${blue})` },
+        { 
+          justifyContent: "center",
+          backgroundColor: `rgb(${red}, ${green}, ${blue})`, 
+        },
       ]}
     >
 
-      <View style={{ padding: 30 }}>
+      {/* <View style={{ padding: 50 }}>
         <Text style={styles.detailText}>Red: {red}</Text>
         <Text style={styles.detailText}>Green: {green}</Text>
         <Text style={styles.detailText}>Blue: {blue}</Text>
-      </View>
+      </View> */}
+      <Text
+        style={[
+          { color: `rgb(${textRed}, ${textGreen}, ${textBlue})` },
+          styles.detailsText,
+        ]}
+      >
+        Red: {red}
+      </Text>
+      <Text
+        style={[
+          { color: `rgb(${textRed}, ${textGreen}, ${textBlue})` },
+          styles.detailsText,
+        ]}
+      >
+        Green: {green}
+      </Text>
+      <Text
+        style={[
+          { color: `rgb(${textRed}, ${textGreen}, ${textBlue})` },
+          styles.detailsText,
+        ]}
+      >
+        Blue: {blue}
+      </Text>
+      
     </View>
   );
  }
